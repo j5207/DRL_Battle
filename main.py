@@ -131,11 +131,6 @@ class Bullet(pygame.sprite.Sprite):
 
 
 ##### In Sight Detection  ####
-##############################
-##--------------------------------------------------------------------------------
-####################################################################################################
-####################################################################################################
-####################################################################################################
 class LineOfSight(pygame.sprite.Sprite):
     """ a big projectile fired by the tank's main cannon"""
     side = 2 # small side of bullet rectangle
@@ -183,19 +178,8 @@ class LineOfSight(pygame.sprite.Sprite):
                 self.pos[1] += self.dy
                     #   self.kill()
         return True
-####################################################################################################
-####################################################################################################
-####################################################################################################
-
-
-
-
-
-
 
 ##### Tank Class  ####
-##############################
-##--------------------------------------------------------------------------------
 class Tank(pygame.sprite.Sprite):
     side = 100 # side of the quadratic tank sprite
     recoiltime = 1 # how many seconds  the cannon is busy after firing one time
@@ -232,19 +216,6 @@ class Tank(pygame.sprite.Sprite):
         self.turretAngle = angle #turret facing
         self.tankAngle = angle # tank facing
         #----------key control------------------#
-        #self.firekey = Tank.firreturekey[self.number] # main gun     
-        # self.turretLeftkey = Tank.turretLeftkey[self.number] # turret
-        # self.turretRightkey = Tank.turretRightkey[self.number] # turret
-        # self.forwardkey = Tank.forwardkey[self.number] # move tank
-        # self.backwardkey = Tank.backwardkey[self.number] # reverse tank
-        # self.tankLeftkey = Tank.tankLeftkey[self.number] # tank go with left
-        # self.tankRightkey = Tank.tankRightkey[self.number] # tank go with right
-        # self.tankTurnleftkey = Tank.tankTurnleftkey[self.number] # rotate
-        # self.tankTurnrightkey = Tank.tankTurnrightkey[self.number] #  rotate
-        # self.rightForwardkey = Tank.rightForwardkey[self.number] # right forward
-        # self.rightBackwardkey = Tank.rightBackwardkey[self.number] # right backward
-        # self.leftForwardkey = Tank.leftForwardkey[self.number] # left forward
-        # self.leftBackwardkey = Tank.leftBackwardkey[self.number] # left backward
         self.turretLeftkey = 11 # turret
         self.turretRightkey = 10 # turret
         self.forwardkey = 2 # move tank
@@ -407,9 +378,6 @@ class Tank(pygame.sprite.Sprite):
             self.turretAngle = Tank.maxturrentangle + self.tankAngle
         elif self.turretAngle - self.tankAngle < -Tank.maxturrentangle:
             self.turretAngle = -Tank.maxturrentangle + self.tankAngle
-####################################################################################################
-####################################################################################################
-####################################################################################################
         # ---------- fire cannon -----------
         if (self.firestatus ==0) and (self.ammo > 0) and not self.dead:
             self.line1 = LineOfSight(self,self.target)
@@ -419,10 +387,6 @@ class Tank(pygame.sprite.Sprite):
                 self.ammo -= 1
                 self.msg =  "player%i: ammo: %i HP: %s Ontarget: %i" % (self.number+1, self.ammo, self.hp, self.ontarget)
                 Text.book[self.number].changemsg(self.msg)
-        
-####################################################################################################
-####################################################################################################
-####################################################################################################
         # ---------- movement ------------
         self.dx = 0
         self.dy = 0
@@ -570,8 +534,6 @@ class Tank(pygame.sprite.Sprite):
 
 
 #####     Turret Class     ####
-###############################
-##--------------------------------------------------------------------------------
 class Turret(pygame.sprite.Sprite):
     """turret on top of tank"""
     def __init__(self, boss):
