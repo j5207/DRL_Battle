@@ -92,33 +92,6 @@ class RoboMasterMap():
 
 
 
-# if __name__ == "__main__":
-#     tile_size = 10
-#     pygame.init()
-#     screen = pygame.display.set_mode((500 + 2 * tile_size, 800 + 2 * tile_size))
-#     pygame.display.set_caption("My Game")
-#     clock = pygame.time.Clock()
-#     m = RoboMasterMap()
-#     m.draw_rect1(tile_size, screen)
-#     t = Tank(tile_size)
-#     Bonus()
-#     done = False
-#     while done == False:
-#         for event in pygame.event.get():
-#             if event.type == pygame.QUIT:
-#                 done = True
-#             if event.type == KEYDOWN:
-#                 if event.key == K_LEFT:
-#                     pass
-#         clock.tick(100)
-#         m.draw_rect(tile_size, screen)
-#         pressed_keys = pygame.key.get_pressed()
-#         t.move(pressed_keys, screen)
-#         tank_position , tank_angle= t.get_tank_pos()
-#         Bullet(tank_position, tank_angle, screen)
-
-#         BUFF = t.update_buff(BUFF)
-#         #print(BUFF)
 
 
 
@@ -126,4 +99,5 @@ class RoboMasterMap():
 
 
 
-    pygame.quit()
+
+#     pygame.quit()
