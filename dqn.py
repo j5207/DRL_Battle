@@ -78,28 +78,28 @@ class DuelingDQN():
                 b4 = tf.get_variable('b4', [1, 500], initializer=b_initializer, collections=c_names)
                 l4 = tf.nn.dropout(tf.nn.relu(tf.matmul(l3, w4) + b4), keep_prob=0.5)
 
-                w5 = tf.get_variable('w10', [500, n_l1], initializer=w_initializer, collections=c_names)
-                b5 = tf.get_variable('b10', [1, n_l1], initializer=b_initializer, collections=c_names)
+                w5 = tf.get_variable('w5', [500, n_l1], initializer=w_initializer, collections=c_names)
+                b5 = tf.get_variable('b5', [1, n_l1], initializer=b_initializer, collections=c_names)
                 l5 = tf.nn.dropout(tf.nn.relu(tf.matmul(l4, w5) + b5), keep_prob=0.5)
 
             if self.dueling:
                 # Dueling DQN
                 with tf.variable_scope('Value'):
-                    w6 = tf.get_variable('w11', [n_l1, 1], initializer=w_initializer, collections=c_names)
-                    b6 = tf.get_variable('b11', [1, 1], initializer=b_initializer, collections=c_names)
-                    self.V = tf.matmul(l5, w11) + b6
+                    w6 = tf.get_variable('w6', [n_l1, 1], initializer=w_initializer, collections=c_names)
+                    b6 = tf.get_variable('b6', [1, 1], initializer=b_initializer, collections=c_names)
+                    self.V = tf.matmul(l5, w6) + b6
 
                 with tf.variable_scope('Advantage'):
-                    w6 = tf.get_variable('w11', [n_l1, self.n_actions], initializer=w_initializer, collections=c_names)
-                    b6 = tf.get_variable('b11', [1, self.n_actions], initializer=b_initializer, collections=c_names)
+                    w6 = tf.get_variable('w6', [n_l1, self.n_actions], initializer=w_initializer, collections=c_names)
+                    b6 = tf.get_variable('b6', [1, self.n_actions], initializer=b_initializer, collections=c_names)
                     self.A = tf.nn.softmax(tf.matmul(l5, w6) + b6)
 
                 with tf.variable_scope('Q'):
                     out = self.V + (self.A - tf.reduce_mean(self.A, axis=1, keep_dims=True))     # Q = V(s) + A(s,a)
             else:
                 with tf.variable_scope('Q'):
-                    w6 = tf.get_variable('w11', [n_l1, self.n_actions], initializer=w_initializer, collections=c_names)
-                    b6 = tf.get_variable('b11', [1, self.n_actions], initializer=b_initializer, collections=c_names)
+                    w6 = tf.get_variable('w6', [n_l1, self.n_actions], initializer=w_initializer, collections=c_names)
+                    b6 = tf.get_variable('b6', [1, self.n_actions], initializer=b_initializer, collections=c_names)
                     out = tf.nn.softmax(tf.matmul(l5, w6) + b5)
 
             return out
