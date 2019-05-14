@@ -74,53 +74,33 @@ class DuelingDQN():
                 b3 = tf.get_variable('b3', [1, 1000], initializer=b_initializer, collections=c_names)
                 l3 = tf.nn.dropout(tf.nn.relu(tf.matmul(l2, w3) + b3), keep_prob=0.5)
 
-                w4 = tf.get_variable('w4', [1000, 1000], initializer=w_initializer, collections=c_names)
-                b4 = tf.get_variable('b4', [1, 1000], initializer=b_initializer, collections=c_names)
+                w4 = tf.get_variable('w4', [1000, 500], initializer=w_initializer, collections=c_names)
+                b4 = tf.get_variable('b4', [1, 500], initializer=b_initializer, collections=c_names)
                 l4 = tf.nn.dropout(tf.nn.relu(tf.matmul(l3, w4) + b4), keep_prob=0.5)
 
-                w5 = tf.get_variable('w5', [1000, 1000], initializer=w_initializer, collections=c_names)
-                b5 = tf.get_variable('b5', [1, 1000], initializer=b_initializer, collections=c_names)
+                w5 = tf.get_variable('w10', [500, n_l1], initializer=w_initializer, collections=c_names)
+                b5 = tf.get_variable('b10', [1, n_l1], initializer=b_initializer, collections=c_names)
                 l5 = tf.nn.dropout(tf.nn.relu(tf.matmul(l4, w5) + b5), keep_prob=0.5)
-
-                w6 = tf.get_variable('w6', [1000, 1000], initializer=w_initializer, collections=c_names)
-                b6 = tf.get_variable('b6', [1, 1000], initializer=b_initializer, collections=c_names)
-                l6 = tf.nn.dropout(tf.nn.relu(tf.matmul(l5, w6) + b6), keep_prob=0.5)
-
-                w7 = tf.get_variable('w7', [1000, 1000], initializer=w_initializer, collections=c_names)
-                b7 = tf.get_variable('b7', [1, 1000], initializer=b_initializer, collections=c_names)
-                l7 = tf.nn.dropout(tf.nn.relu(tf.matmul(l6, w7) + b7), keep_prob=0.5)
-
-                w8 = tf.get_variable('w8', [1000, 1000], initializer=w_initializer, collections=c_names)
-                b8 = tf.get_variable('b8', [1, 1000], initializer=b_initializer, collections=c_names)
-                l8 = tf.nn.dropout(tf.nn.relu(tf.matmul(l7, w8) + b8), keep_prob=0.5)
-
-                w9 = tf.get_variable('w9', [1000, 1000], initializer=w_initializer, collections=c_names)
-                b9 = tf.get_variable('b9', [1, 1000], initializer=b_initializer, collections=c_names)
-                l9 = tf.nn.dropout(tf.nn.relu(tf.matmul(l8, w9) + b9), keep_prob=0.5)
-
-                w10 = tf.get_variable('w10', [1000, n_l1], initializer=w_initializer, collections=c_names)
-                b10 = tf.get_variable('b10', [1, n_l1], initializer=b_initializer, collections=c_names)
-                l10 = tf.nn.dropout(tf.nn.relu(tf.matmul(l9, w10) + b10), keep_prob=0.5)
 
             if self.dueling:
                 # Dueling DQN
                 with tf.variable_scope('Value'):
-                    w11 = tf.get_variable('w11', [n_l1, 1], initializer=w_initializer, collections=c_names)
-                    b11 = tf.get_variable('b11', [1, 1], initializer=b_initializer, collections=c_names)
-                    self.V = tf.matmul(l10, w11) + b11
+                    w6 = tf.get_variable('w11', [n_l1, 1], initializer=w_initializer, collections=c_names)
+                    b6 = tf.get_variable('b11', [1, 1], initializer=b_initializer, collections=c_names)
+                    self.V = tf.matmul(l5, w11) + b6
 
                 with tf.variable_scope('Advantage'):
-                    w11 = tf.get_variable('w11', [n_l1, self.n_actions], initializer=w_initializer, collections=c_names)
-                    b11 = tf.get_variable('b11', [1, self.n_actions], initializer=b_initializer, collections=c_names)
-                    self.A = tf.nn.softmax(tf.matmul(l10, w11) + b11)
+                    w6 = tf.get_variable('w11', [n_l1, self.n_actions], initializer=w_initializer, collections=c_names)
+                    b6 = tf.get_variable('b11', [1, self.n_actions], initializer=b_initializer, collections=c_names)
+                    self.A = tf.nn.softmax(tf.matmul(l5, w6) + b6)
 
                 with tf.variable_scope('Q'):
                     out = self.V + (self.A - tf.reduce_mean(self.A, axis=1, keep_dims=True))     # Q = V(s) + A(s,a)
             else:
                 with tf.variable_scope('Q'):
-                    w11 = tf.get_variable('w11', [n_l1, self.n_actions], initializer=w_initializer, collections=c_names)
-                    b11 = tf.get_variable('b11', [1, self.n_actions], initializer=b_initializer, collections=c_names)
-                    out = tf.nn.softmax(tf.matmul(l10, w11) + b11)
+                    w6 = tf.get_variable('w11', [n_l1, self.n_actions], initializer=w_initializer, collections=c_names)
+                    b6 = tf.get_variable('b11', [1, self.n_actions], initializer=b_initializer, collections=c_names)
+                    out = tf.nn.softmax(tf.matmul(l5, w6) + b5)
 
             return out
 
